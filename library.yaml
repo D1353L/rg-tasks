@@ -1,0 +1,21 @@
+--- !ruby/object:Library
+books:
+- &1 !ruby/object:Book
+  title: Title
+  author: &3 !ruby/object:Author
+    name: NameAut
+    biography: Biogr
+orders:
+- !ruby/object:Order
+  book: *1
+  reader: &2 !ruby/object:Reader
+    city: Chicago
+    email: boijar22@liga.aa
+    name: John A
+    street: 24 St.
+    house: '456'
+  date: 2016-04-06
+readers:
+- *2
+authors:
+- *3
