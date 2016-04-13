@@ -1,2 +1,2 @@
 # RubyGarage tasks: metakoans
-See branches
+metakoans.rb is an arduous set of exercises designed to stretch meta-programming muscle.
