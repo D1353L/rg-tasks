@@ -1,21 +1,47 @@
 --- !ruby/object:Library
 books:
 - &1 !ruby/object:Book
-  title: Title
-  author: &3 !ruby/object:Author
-    name: NameAut
-    biography: Biogr
+  title: Title1
+  author: &7 !ruby/object:Author
+    name: Aut1
+    biography: Biogr1
+- &2 !ruby/object:Book
+  title: Title2
+  author: &8 !ruby/object:Author
+    name: Aut2
+    biography: Biogr2
 orders:
 - !ruby/object:Order
-  book: *1
-  reader: &2 !ruby/object:Reader
-    city: Chicago
-    email: boijar22@liga.aa
-    name: John A
-    street: 24 St.
-    house: '456'
+  book: *2
+  reader: &4 !ruby/object:Reader
+    city: City1
+    email: em1@ls.aa
+    name: Name1
+    street: Street1
+    house: '1'
   date: 2016-04-06
+- !ruby/object:Order
+  book: *1
+  reader: &5 !ruby/object:Reader
+    city: City2
+    email: em2@ls.sa
+    name: Name2
+    street: Street2
+    house: '2'
+  date: 2016-04-16
+- !ruby/object:Order
+  book: *2
+  reader: &6 !ruby/object:Reader
+    city: City3
+    email: em3@ls.sa
+    name: Name3
+    street: Street3
+    house: '3'
+  date: 2016-04-16
 readers:
-- *2
+- *4
+- *5
+- *6
 authors:
-- *3
+- *7
+- *8

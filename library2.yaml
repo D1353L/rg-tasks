@@ -1,0 +1,21 @@
+--- !ruby/object:Library
+books:
+- &1 !ruby/object:Book
+  title: The Jungle Book
+  author: &3 !ruby/object:Author
+    name: Joseph Rudyard Kipling
+    biography: 30 December 1865 – 18 January 1936
+orders:
+- !ruby/object:Order
+  book: *1
+  reader: &2 !ruby/object:Reader
+    city: Los Santos
+    email: cj@ls.sa
+    name: CJ
+    street: Grouve St.
+    house: '456'
+  date: 2016-04-14
+readers:
+- *2
+authors:
+- *3

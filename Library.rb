@@ -6,68 +6,59 @@ require_relative 'Order'
 
 class Library
   attr_accessor :books, :orders, :readers, :authors
-  
+
   def initialize
     @books = Array.new
-	@orders = Array.new
-	@readers = Array.new
-	@authors = Array.new
+    @orders = Array.new
+    @readers = Array.new
+    @authors = Array.new
   end
-  
+
   def fill_new_order
-	  reader = Reader.new("John A", "boijar22@liga.aa", "Chicago", "24 St.", "456")
-	  author = Author.new("NameAut", "Biogr")
-	  book = Book.new("Title", author)
+	  reader = Reader.new('Name2', 'em2@ls.sa', 'City2', 'Street2', '2')
+	  author = Author.new('Aut1', 'Biogr1')
+	  book = Book.new('Title1', author)
 	  order = Order.new(book, reader, Time.now.to_date)
-	  
+
 	  @books << book
 	  @readers << reader
 	  @authors << author
 	  @orders << order
   end
-  
-  def often_reader(book_name)
+
+  def often_reader(book_title)
 	  readers = Hash.new(0)
-	  lib.orders.each do |order|
-		readers[order.reader] += 1 if order.book.name == book_name
+	  self.orders.each do |order|
+		  readers[order.reader] += 1 if order.book.title == book_title
 	  end
 	  readers.sort_by {|_key, value| value}.first
   end
-  
+
   def most_popular_book
 	  books = Hash.new(0)
-	  lib.orders.each { |order| books[order.book] += 1 }
-	  books.sort_by {|_key, value| value}.to_h.first
+	  self.orders.each { |order| books[order.book] += 1}
+	  books.sort_by {|_key, value| value}.reverse[0][0].title
   end
-  
-  def people_count_of_top_three_books
+
+  def readers_top_three_books
 	  books = Hash.new {|h,k| h[k] = Array.new }
-	  lib.orders.each { |order| books[order.book] << order.reader }
+	  self.orders.each { |order| books[order.book] << order.reader }
 	  popular = books.sort_by {|_key, value| value.size}[0..2].to_h
-	  people_count = 0
-	  popular.each_value {|v| people_count += v.uniq.size}
-	  people_count
+	  readers_count = 0
+	  popular.each_value {|v| readers_count += v.uniq.size}
+		readers_count
   end
-  
-  def save_to_file
-    File.open("library.yaml", "a") {|f| f.puts YAML::dump(self)}
+
+  def save_to_file(path)
+    File.open(path, 'w') {|f| f.puts YAML::dump(self)}
   end
-  
-  def self.get_from_file(path)
-    array = []
-	$/="\n\n"
-	File.open(path, "r").each do |object|
-		array << YAML::load(object)
-	end
-	array
+
+  def self.load_from_file(path)
+	  YAML::load(File.read(path))
   end
 end
 
-p Library.get_from_file("library.yaml")
-
-
-
-
-
-
-
+lib1 = Library.load_from_file('library.yaml')
+p "Often reader of Title1: #{lib1.often_reader('Title1')}"
+p "Most popular book: #{lib1.most_popular_book}"
+p "Readers of top three books: #{lib1.readers_top_three_books}"
