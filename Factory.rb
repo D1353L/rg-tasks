@@ -23,6 +23,32 @@ class Factory
       send(:define_method, :[]=) do |key, value|
         key.is_a?(Fixnum) ? send("#{keys[key]}=", value) : send("#{key}=", value)
       end
+	  
+	  send(:define_method, :each) do |&block|
+		if block_given? && !block.nil?
+			keys.each {|k| block.call self[k]}
+		else
+			values = Array.new
+			keys.each {|k| values << self[k]}
+			values.each
+		end
+	  end
+	  
+	  send(:define_method, :each_pair) do |&block|
+		if block_given? && !block.nil?
+			keys.each {|k| block.call k, self[k]}
+		else
+			values = Hash.new
+			keys.each {|k| values[k] = self[k]}
+			values.each
+		end
+	  end
+	  
+	  send(:define_method, :eql?) do |other|
+        return false if self.class != other.class
+        keys.each {|k| return false unless self[k].eql?(other[k])}
+        true
+      end
     end
   end
 end
@@ -38,6 +64,9 @@ end
 
 b = f2.new("ssa", "aaa")
 
-b[:name] = "Noah"
+b["name"] = "Name"
 b[1] = "Earth"
 p b
+b.each_pair {|name, value| p ("#{name} => #{value}")}
+p b.each_pair
+p a.eql? a
