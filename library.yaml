@@ -10,6 +10,12 @@ books:
   author: &8 !ruby/object:Author
     name: Aut2
     biography: Biogr2
+- &9 !ruby/object:Book
+  title: Title3
+  author: *7
+- &10 !ruby/object:Book
+  title: Title4
+  author: *8
 orders:
 - !ruby/object:Order
   book: *2
@@ -37,6 +43,15 @@ orders:
     name: Name3
     street: Street3
     house: '3'
+  date: 2016-04-16
+- !ruby/object:Order
+  book: *9
+  reader: &11 !ruby/object:Reader
+    city: City4
+    email: em4@ls.sa
+    name: Name4
+    street: Street4
+    house: '4'
   date: 2016-04-16
 readers:
 - *4
