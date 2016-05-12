@@ -1,5 +1,4 @@
 require 'yaml'
-require 'benchmark'
 require_relative 'Author'
 require_relative 'Book'
 require_relative 'Reader'
@@ -29,19 +28,17 @@ class Library
   end
 
   def often_reader(book_title)
-    readers = @orders.select { |order| order.book.title == book_title }.map!(&:reader)
-    readers.sort_by { |_key, value| value }.first
+    readers = @orders.select { |order| order.book.title == book_title }
+    readers.map!(&:reader).group_by(&:name).values.max_by(&:count).first.name
   end
 
   def most_popular_book
-    books = Hash.new(0)
-    orders.each { |order| books[order.book] += 1 }
-    books.sort_by { |_key, value| value }.reverse[0][0].title
+    @orders.group_by(&:book).values.max_by(&:count).first.book.title
   end
 
   def readers_top_three_books
     books = Hash.new { |h, k| h[k] = [] }
-    orders.each { |order| books[order.book] << order.reader }
+    orders.map { |order| books[order.book] << order.reader }
     popular = books.sort_by { |_key, value| value.size }[0..2].to_h
     readers_count = 0
     popular.each_value { |v| readers_count += v.uniq.size }
@@ -58,6 +55,6 @@ class Library
 end
 
 lib1 = Library.load_from_file('library.yaml')
-p "Often reader of Title1: #{lib1.often_reader('Title1')}"
+p "Often reader of Title1: #{lib1.often_reader('Title2')}"
 p "Most popular book: #{lib1.most_popular_book}"
 p "Readers of top three books: #{lib1.readers_top_three_books}"
