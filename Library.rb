@@ -37,12 +37,8 @@ class Library
   end
 
   def readers_top_three_books
-    books = Hash.new { |h, k| h[k] = [] }
-    orders.map { |order| books[order.book] << order.reader }
-    popular = books.sort_by { |_key, value| value.size }[0..2].to_h
-    readers_count = 0
-    popular.each_value { |v| readers_count += v.uniq.size }
-    readers_count
+    @orders.group_by(&:book).sort_by { |_k, v| v.size }.reverse[0..2]
+      .to_h.values.flatten.uniq(&:reader).count
   end
 
   def save_to_file(path)

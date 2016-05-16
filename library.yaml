@@ -53,6 +53,24 @@ orders:
     street: Street4
     house: '4'
   date: 2016-04-16
+- !ruby/object:Order
+  book: *9
+  reader: &12 !ruby/object:Reader
+    city: City5
+    email: em5@ls.sa
+    name: Name5
+    street: Street5
+    house: '5'
+  date: 2016-04-16
+- !ruby/object:Order
+  book: *10
+  reader: &13 !ruby/object:Reader
+    city: City6
+    email: em6@ls.sa
+    name: Name6
+    street: Street6
+    house: '6'
+  date: 2016-04-16
 readers:
 - *4
 - *5
