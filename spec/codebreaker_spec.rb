@@ -30,17 +30,15 @@ RSpec.describe Codebreaker do
   context '#verify_code' do
     it 'should raise exception if code size != 4' do
       expect { app.verify_code('12345') }.to raise_error RuntimeError
+      expect { app.verify_code('123') }.to raise_error RuntimeError
     end
 
     it 'should raise exception if code is not number' do
       expect { app.verify_code('1a45') }.to raise_error RuntimeError
     end
 
-    it 'should raise exception if code contains digit < 1' do
+    it 'should raise exception if code contains digit < 1 or > 6' do
       expect { app.verify_code('1230') }.to raise_error RuntimeError
-    end
-
-    it 'should raise exception if code contains digit > 6' do
       expect { app.verify_code('1734') }.to raise_error RuntimeError
     end
 
