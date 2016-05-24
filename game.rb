@@ -1,4 +1,5 @@
 require_relative 'core.rb'
+require 'yaml'
 
 #Game
 class Game
@@ -16,7 +17,7 @@ class Game
   def start
     @attempts = ATTEMPTS
     @hints = HINTS
-    @core.generate_code
+    p @core.generate_code
     p 'Try to guess 4-digits (1-6) code:'
     begin
       begin
@@ -25,6 +26,7 @@ class Game
         p e.message
       end
     end while @attempts > 0
+    save_score
     new_game_or_exit
   end
 
@@ -67,16 +69,43 @@ class Game
       p 'Do you want to start new game? (y/n)'
       answer = gets.chomp
       start if answer == 'y'
-      exit if answer == 'n'
+      if answer == 'n'
+        output_top10_scores
+        exit
+      end
     end while answer.downcase != 'y' || answer.downcase != 'n'
   end
 
   def save_score
-
+    @score = {name: @name, code: @core.secret_code, attempts: ATTEMPTS - @attempts, win: @win ? :win : :lose}
+    File.open('scores.yaml', 'a') { |f| f.puts @score.to_yaml }
   end
 
   def get_scores
+    YAML.load_stream(File.open('scores.yaml'))
+  end
 
+  def output_top10_scores
+    scores = get_scores.sort_by { |hsh| hsh[:attempts] }
+
+    print '#'.rjust(5), 'Name |'.rjust(10), 'Code |'.rjust(10)
+    print 'Attempts |'.rjust(10), 'Win/lose |'.rjust(10), "\n"
+
+    scores[0..9].each_with_index do |hsh, i|
+      print "#{i+1}.".rjust(5)
+      hsh.each_value do |val|
+        print "#{val} |".rjust(10)
+      end
+      print "\n"
+    end
+
+    if scores.index(@score) > 9
+      print '......'.center(44), "\n"
+      print "#{scores.index(@score)+1}.".rjust(5)
+      @score.each_value do |val|
+        print "#{val} |".rjust(10)
+      end
+    end
   end
 end
 

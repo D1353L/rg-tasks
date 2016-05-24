@@ -15,14 +15,17 @@ class Core
     raise 'Code digits should be in 1-6 range' if (code =~ /[1-6]{4}/).nil?
 
     result = ''
+    secret_array = @secret_code.split('')
     code.chars.each_with_index do |dig, i|
-      if @secret_code[i] == dig
+      if secret_array[i] == dig
+        secret_array[i] = nil
         result[0, 0] = '+'
-      elsif @secret_code.include?(dig)
-        result << '-'
       end
     end
-    result.chop! if result == '+++-'
+
+    code.chars.each_with_index do |dig, i|
+      result << '-' if secret_array.include?(dig) && !secret_array[i].nil?
+    end
     result
   end
 end
