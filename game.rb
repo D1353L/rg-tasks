@@ -17,7 +17,7 @@ class Game
   def start
     @attempts = ATTEMPTS
     @hints = HINTS
-    p @core.generate_code
+    @core.generate_code
     p 'Try to guess 4-digits (1-6) code:'
     begin
       begin
