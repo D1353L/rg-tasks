@@ -42,10 +42,10 @@ class Console
   def user_input
     if (input = gets.chomp) == 'hint'
       h = @game.hint(@core.secret_code)
-      if @game.hint(@core.secret_code).nil?
+      if h.nil?
         p 'All hints used'
       else
-        h
+        p h
       end
       input = gets.chomp
     end

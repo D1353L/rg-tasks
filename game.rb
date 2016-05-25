@@ -20,7 +20,7 @@ class Game
   def hint(secret_code)
     if @hints > 0
       @hints -= 1
-      return secret_code[rand(0...secret_code.size)]
+      return secret_code.chars.sample
     end
     nil
   end
