@@ -20,26 +20,29 @@ RSpec.describe Core do
             ['1234', '5555', '']
           ]
 
-  context '#generate_code' do
-    it 'should generate 4-digit code from 1 to 6' do
-      expect(core.secret_code.size).to eq 4
-      core.secret_code.chars.each { |dig| expect(dig.to_i).to be_between(1, 6) }
+  describe '#generate_code' do
+    context 'generates 4-digit code' do
+      it { expect(core.secret_code.size).to eq 4 }
+    end
+
+    context 'code digits are from 1 to 6' do
+      it { core.secret_code.chars.each { |dig| expect(dig.to_i).to be_between(1, 6) } }
     end
   end
 
-  context '#verify_code' do
-    it 'should raise exception if code size != 4' do
-      expect { core.verify_code('12345') }.to raise_error RuntimeError
-      expect { core.verify_code('123') }.to raise_error RuntimeError
+  describe '#verify_code' do
+    context 'code size != 4' do
+      it { expect { core.verify_code('12345') }.to raise_error RuntimeError }
+      it { expect { core.verify_code('123') }.to raise_error RuntimeError }
     end
 
-    it 'should raise exception if code is not number' do
-      expect { core.verify_code('1a45') }.to raise_error RuntimeError
+    context 'code is not a number' do
+      it { expect { core.verify_code('1a45') }.to raise_error RuntimeError }
     end
 
-    it 'should raise exception if code contains digit < 1 or > 6' do
-      expect { core.verify_code('1230') }.to raise_error RuntimeError
-      expect { core.verify_code('1734') }.to raise_error RuntimeError
+    context 'code contains digit < 1 or > 6' do
+      it { expect { core.verify_code('1230') }.to raise_error RuntimeError }
+      it { expect { core.verify_code('1734') }.to raise_error RuntimeError }
     end
 
     cases.each do |x|

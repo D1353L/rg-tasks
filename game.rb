@@ -4,8 +4,8 @@ require 'yaml'
 class Game
   ATTEMPTS = 4
   HINTS = 1
-
   attr_accessor :attempts, :hints, :score
+
   def initialize
     @attempts = ATTEMPTS
     @hints = HINTS
