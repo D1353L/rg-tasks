@@ -5,7 +5,7 @@ module Codebreaker
   class Game
     ATTEMPTS = 4
     HINTS = 1
-    attr_accessor :attempts, :hints, :score
+    attr_reader :attempts, :hints, :score
 
     def initialize
       @attempts = ATTEMPTS
@@ -19,11 +19,9 @@ module Codebreaker
     end
 
     def hint(secret_code)
-      if @hints > 0
-        @hints -= 1
-        return secret_code.chars.sample
-      end
-      nil
+      return nil unless hints > 0
+      @hints -= 1
+      secret_code.chars.sample
     end
 
     def save_score(name, code, win, path)
