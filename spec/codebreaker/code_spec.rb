@@ -2,7 +2,7 @@ require_relative '../spec_helper'
 
 module Codebreaker
   RSpec.describe Code do
-    let(:code) { Code.new }
+    subject { Code.new }
 
     cases = [
         ['1111', '1111', '++++'],
@@ -23,33 +23,33 @@ module Codebreaker
 
     describe '#generate_code' do
       context 'generates 4-digit code' do
-        it { expect(code.secret_code.size).to eq 4 }
+        it { expect(subject.secret_code.size).to eq 4 }
       end
 
       context 'code digits are from 1 to 6' do
-        it { expect(code.secret_code).to match(/[1-6]{4}/) }
+        it { expect(subject.secret_code).to match(/[1-6]{4}/) }
       end
     end
 
     describe '#verify_code' do
       context 'code size != 4' do
-        it { expect { code.verify('12345') }.to raise_error RuntimeError }
-        it { expect { code.verify('123') }.to raise_error RuntimeError }
+        it { expect { subject.verify('12345') }.to raise_error RuntimeError }
+        it { expect { subject.verify('123') }.to raise_error RuntimeError }
       end
 
       context 'code is not a number' do
-        it { expect { code.verify('1a45') }.to raise_error RuntimeError }
+        it { expect { subject.verify('1a45') }.to raise_error RuntimeError }
       end
 
       context 'code contains digit < 1 or > 6' do
-        it { expect { code.verify('1230') }.to raise_error RuntimeError }
-        it { expect { code.verify('1734') }.to raise_error RuntimeError }
+        it { expect { subject.verify('1230') }.to raise_error RuntimeError }
+        it { expect { subject.verify('1734') }.to raise_error RuntimeError }
       end
 
       cases.each do |x|
         it "should return #{x[2]} if secret_code == #{x[0]} and code == #{x[1]}" do
-          code.instance_variable_set(:@secret_code, x[0])
-          expect(code.verify(x[1])).to eq x[2]
+          subject.instance_variable_set(:@secret_code, x[0])
+          expect(subject.verify(x[1])).to eq x[2]
         end
       end
     end

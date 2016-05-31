@@ -17,10 +17,9 @@ module Codebreaker
       result = ''
       secret_array = @secret_code.split('')
       code.chars.each_with_index do |dig, i|
-        if secret_array[i] == dig
-          secret_array[i] = nil
-          result[0, 0] = '+'
-        end
+        next unless secret_array[i] == dig
+        secret_array[i] = nil
+        result[0, 0] = '+'
       end
       code.chars.each_with_index do |dig, i|
         result << '-' if secret_array.include?(dig) && !secret_array[i].nil?

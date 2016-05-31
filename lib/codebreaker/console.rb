@@ -4,6 +4,8 @@ require_relative 'game'
 module Codebreaker
   # Console
   class Console
+    attr_reader :name, :win, :game, :code
+
     def initialize
       @code = Code.new
       @game = Game.new
@@ -23,15 +25,13 @@ module Codebreaker
           if @win
             p 'You win!'
             break
-          else
-            p result
-            if @game.attempts == 0
-              p 'Game over'
-              break
-            else
-              p "Failure. Left #{@game.attempts} attempts."
-            end
           end
+          p result
+          if @game.attempts == 0
+            p 'Game over'
+            break
+          end
+          p "Failure. Left #{@game.attempts} attempts."
         rescue RuntimeError => e
           p e.message
         end
@@ -41,14 +41,9 @@ module Codebreaker
     end
 
     def user_input
-      if (input = gets.chomp) == 'hint'
+      while (input = gets.chomp) == 'hint'
         h = @game.hint(@code.secret_code)
-        if h.nil?
-          p 'All hints used'
-        else
-          p h
-        end
-        input = gets.chomp
+        p h.nil? ? 'All hints used' : h
       end
       input
     end
@@ -63,8 +58,6 @@ module Codebreaker
         elsif answer.casecmp('n') == 0
           output_top10_scores(@game.load_scores('scores.yaml'))
           exit
-        else
-          next
         end
       end
     end
