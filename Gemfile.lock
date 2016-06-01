@@ -1,10 +1,23 @@
+GIT
+  remote: http://github.com/D1353L/rg-tasks.git
+  revision: ab6593f65756897e368bfa2414aa6ae6c8b2966f
+  branch: codebreaker
+  specs:
+    codebreaker (0.0.1)
+
 GEM
   remote: http://rubygems.org/
   specs:
     json (1.8.3)
+    rack (1.6.4)
 
 PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  codebreaker!
   json
+  rack
+
+BUNDLED WITH
+   1.11.2

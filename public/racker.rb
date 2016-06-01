@@ -1,12 +1,10 @@
 require 'erb'
 require 'json'
-require 'codebreaker'
 
 class Racker
 
   def call(env)
     @request = Rack::Request.new(env)
-    render("index.html.erb")
     case @request.path
       when '/' then index
       when '/set_username' then set_username

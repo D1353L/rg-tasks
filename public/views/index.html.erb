@@ -3,20 +3,21 @@
 <head>
   <title>Codebreaker</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="public/assets/stylesheets/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script src="/public/assets/js/index.js"></script>
+  <script src="/public/assets/js/script.js"></script>
 </head>
 <body>
 <div id="container">
   <h1 align = "center">Welcome to the Codebreaker App</h1>
-  <div class = "panel-body content" align = "center" style = "padding: 100px;">
+  <div class = "panel-body content" align = "center">
     <h4 id = "result"> </h4>
     <h4 id = "message">Enter your name:</h4>
     <form class = "form-inline" method="post">
       <div class = "form-group">
         <input id = "text_field" class = "form-control" type = "text">
         <span id = "save_username" class = "btn btn-primary">OK</span>
-        <span id = "hint" class = "glyphicon glyphicon-info-sign hidden" aria-hidden="true" style = "font-size: 30px; margin-left: 10px; top: 10px; cursor: pointer;"></span>
+        <span id = "hint" class = "glyphicon glyphicon-info-sign hidden" aria-hidden="true"></span>
       </div>
     </form>
     <div id = "scores"></div>
