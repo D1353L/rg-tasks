@@ -1,17 +1,17 @@
 require 'erb'
 require 'json'
 
+# Racker
 class Racker
-
   def call(env)
     @request = Rack::Request.new(env)
     case @request.path
-      when '/' then index
-      when '/set_username' then set_username
-      when '/hint' then hint
-      when '/verify_code' then verify_code
-      when '/get_scores' then get_scores
-      else not_found
+    when '/' then index
+    when '/set_username' then set_username
+    when '/hint' then hint
+    when '/verify_code' then verify_code
+    when '/load_scores' then load_scores
+    else not_found
     end
   end
 
@@ -21,8 +21,8 @@ class Racker
   end
 
   def index
-    start
-    Rack::Response.new(render("index.html.erb"))
+    start_game
+    Rack::Response.new(render('index.html.erb'))
   end
 
   def set_username
@@ -30,10 +30,8 @@ class Racker
     Rack::Response.new("Hi #{@username}! Try to guess 4-digits code from 1 to 6")
   end
 
-
-
   def hint
-    Rack::Response.new(@game.hint(@code.secret_code))
+    Rack::Response.new(@game.hint(@code.secret_code) || 'All hints used')
   end
 
   def verify_code
@@ -55,16 +53,16 @@ class Racker
     rescue RuntimeError => e
       message = e.message
     end
-    Rack::Response.new({result: result, endgame: endgame, message: message}.to_json)
+    Rack::Response.new({ result: result, endgame: endgame, message: message }.to_json)
   end
 
-  def get_scores
+  def load_scores
     scores = Codebreaker::Game.new.load_scores('scores.yaml')
     scores.sort_by! { |hsh| hsh[:attempts] }
     Rack::Response.new(scores.to_json)
   end
 
-  def start
+  def start_game
     @code = Codebreaker::Code.new
     @game = Codebreaker::Game.new
   end
@@ -76,6 +74,6 @@ class Racker
   end
 
   def not_found
-    Rack::Response.new("Not Found", 404)
+    Rack::Response.new('Not Found', 404)
   end
 end

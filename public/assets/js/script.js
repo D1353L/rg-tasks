@@ -34,7 +34,7 @@ $(document).ready(function () {
                     $('#try').text("New Game").attr("id", "new_game");
                     jQuery.ajax({
                         type: "GET",
-                        url: "/get_scores",
+                        url: "/load_scores",
                         success: function (response) {
                             resp = JSON.parse(response);
                             var table = $('<table></table>').addClass("table table-bordered");
@@ -62,7 +62,7 @@ $(document).ready(function () {
             type: "GET",
             url: "/hint",
             success: function (response) {
-                $('#hint').text(" - "+response);
+                $.isNumeric(response) ? $('#hint').text(" "+response) : $('#message').text(response);
             }
         });
     });
