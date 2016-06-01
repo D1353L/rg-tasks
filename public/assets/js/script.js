@@ -37,16 +37,19 @@ $(document).ready(function () {
                         url: "/get_scores",
                         success: function (response) {
                             resp = JSON.parse(response);
-                            $("#scores").append("<table>")
+                            var table = $('<table></table>').addClass("table table-bordered");
+                            table.append("<th>#</th><th>Name</th><th>Code</th><th>Attempts</th><th>Win/lose</th>");
                             jQuery.each(resp, function (i, val) {
-                                $("#scores").append("<tr>");
-                                $("#scores").append("<td> "+(i+1)+" </td>");
+                                var row = $('<tr></tr>');
+                                var cell = $('<td></td>').text(i+1);
+                                row.append(cell);
                                 jQuery.each(val, function () {
-                                    $("#scores").append("<td> "+this+" </td>");
+                                    cell = $('<td></td>').text(this);
+                                    row.append(cell);
                                 });
-                                $("#scores").append("</tr>");
+                                table.append(row);
                             });
-                            $("#scores").append("</table>")
+                            $("#scores").append(table);
                         }
                     });
                 }
